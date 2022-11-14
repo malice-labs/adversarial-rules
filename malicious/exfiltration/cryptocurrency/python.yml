@@ -1,0 +1,14 @@
+rules:
+  - id: electrum-wallet
+    severity: WARNING
+    languages:
+      - python
+    metadata:
+      name: Malicious Electrum Wallet
+      platform: agnostic
+    message: |
+      Detected use of PyArmor obfuscation to hide code execution.
+    patterns:
+      - pattern-either:
+        - pattern: pyarmor_runtime(...)
+        - pattern: __pyarmor__(...)

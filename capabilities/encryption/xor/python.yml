@@ -1,0 +1,15 @@
+
+rules:
+  - id: xor
+    severity: WARNING
+    languages:
+      - python
+    metadata:
+      name: XOR Encryption
+      platform: agnostic
+    message: |
+      Uses some form of XOR encryption
+
+    # TODO: support something like: `chr(ord(i) ^ ord("\xab")`
+    pattern: ^
+  

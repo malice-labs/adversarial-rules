@@ -1,0 +1,21 @@
+rules:
+  - id: win-registry-interact
+    severity: WARNING
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: Windows Registry Interaction
+      platform: Windows
+    message: |
+      Detected use of interactions with the Windows registry
+
+    pattern-sources:
+      - pattern: _winreg.OpenKey(...)
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: _winreg.QueryValueEx(...)
+          - pattern: _winreg.SetValueEx(...)
+          - pattern: _winreg.CloseKey(...)
+      

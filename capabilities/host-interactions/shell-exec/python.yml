@@ -1,0 +1,39 @@
+rules:
+  - id: shell-exec
+    severity: WARNING
+    languages:
+      - python
+    metadata:
+      name: Shell Command Execution
+      platform: agnostic
+    message: |
+      Child processes are spawned
+
+    patterns:
+      - pattern-either:
+        - pattern: subprocess.Popen(...)
+        - pattern: subprocess.run(...)
+        - pattern: subprocess.call(...)
+        - pattern: subprocess.check_call(...)
+        - pattern: subprocess.exec(...)
+        - pattern: os.system(...)
+        - pattern: os.popen(...)
+        - pattern: os.popen2(...)
+        - pattern: os.popen3(...)
+        - pattern: os.popen4(...)
+        - pattern: os.spawnl(...)
+        - pattern: os.spawnle(...)
+        - pattern: os.spawnlp(...)
+        - pattern: os.spawnlpe(...)
+        - pattern: os.spawnv(...)
+        - pattern: os.spawnve(...)
+        - pattern: os.spawnvp(...)
+        - pattern: os.spawnvpe(...)
+        - pattern: popen2.popen2(...)
+        - pattern: popen2.popen3(...)
+        - pattern: popen2.popen4(...)
+        - pattern: popen2.Popen3(...)
+        - pattern: popen2.Popen4(...)
+        - pattern: commands.getoutput(...)
+        - pattern: commands.getstatusoutput(...)
+        - pattern: paramiko.exec_command(...)

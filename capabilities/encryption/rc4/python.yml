@@ -1,0 +1,15 @@
+rules:
+  - id: rc4
+    severity: WARNING
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: RC4 Encryption
+      platform: agnostic
+    message: |
+      Use of some form of Rc4 for encryption
+    patterns:
+       - pattern-either:
+          - pattern: ecdsa
+  

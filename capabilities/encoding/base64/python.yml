@@ -1,0 +1,15 @@
+rules:
+  - id: base64
+    severity: WARNING
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: Base64 Encoding
+      platform: agnostic
+    message: |
+      Encodes data with Base64
+    patterns:
+       - pattern-either:
+          - base64.$CALL
+          - base32.$CALL

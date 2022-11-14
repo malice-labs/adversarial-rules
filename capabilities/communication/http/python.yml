@@ -1,0 +1,19 @@
+rules:
+  - id: http
+    severity: WARNING
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: HTTP Requests
+      platform: agnostic
+    message: |
+      Makes HTTP-based requests
+    patterns:
+       - pattern-either:
+          - pattern: requests.$CALL
+          - pattern: socket.$CALL
+          - pattern: urllib2.$CALL
+          - pattern: urllib3.$CALL
+          - pattern: pycurl.$CALL
+  

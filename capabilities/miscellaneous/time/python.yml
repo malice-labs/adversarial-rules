@@ -1,0 +1,15 @@
+rules:
+  - id: time
+    severity: WARNING
+    languages:
+      - python
+    metadata:
+      name: Time Benchmarking
+      platform: agnostic
+    message: |
+      Grabs information about the time
+
+    patterns:
+      - patterns-either:
+          - time.$CALL
+          - datetime.$CALL

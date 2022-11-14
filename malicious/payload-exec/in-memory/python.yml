@@ -1,0 +1,33 @@
+rules:
+  - id: shellcode-exec
+    severity: ERROR
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: Shellcode
+      platform: windows
+    message: |
+      Shellcode is dynamically loaded into memory and executed
+    pattern-sources:
+      - pattern: windll.kernel32.VirtualAlloc(...)
+
+    pattern-sinks:
+      - pattern: windll.kernel32.WaitForSingleObject(...)
+
+  - id: in-memory-unpack
+    severity: ERROR
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: Memfd Payload Execution
+      platform: linux
+    message: |
+      The memfd syscall is used to load an executable
+    
+    pattern-sources:
+      - pattern: ctypes.CDLL(...)
+
+    pattern-sinks:
+      - pattern: libc.syscall(319, ...)

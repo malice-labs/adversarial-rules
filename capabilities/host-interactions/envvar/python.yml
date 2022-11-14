@@ -1,0 +1,20 @@
+rules:
+  - id: envvar
+    severity: WARNING
+    languages:
+      - python
+    metadata:
+      name: Environment Variables
+      platform: agnostic
+    message: |
+      Makes a call to grab environmental variables
+
+    patterns:
+      - pattern-either:
+        - os.getenv(...)
+        - os.environ
+
+        # other libraries
+        - dotenv.$CALL
+        - envparse.env.$CALL
+        - decouple.$CALL

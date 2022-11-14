@@ -1,0 +1,12 @@
+rules:
+  - id: ptrace
+    severity: ERROR
+    languages:
+      - python
+    metadata:
+      name: ptrace
+      platform: linux, macos
+    message: |
+      Use of rudimentary `ptrace`-based techinques to check for debugging
+
+    pattern: libc.ptrace(PTRACE_TRACEME, ...)

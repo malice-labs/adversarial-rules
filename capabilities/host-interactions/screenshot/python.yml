@@ -1,0 +1,17 @@
+rules:
+  - id: screenshot
+    severity: WARNING
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: Screenshotting
+      platform: Windows
+    message: |
+      A screenshot is captured on host 
+
+    pattern-sources:
+      - pattern: PIL.ImageGrab.grab(...)
+    
+    pattern-sinks:
+      - pattern: PIL.ImageGrab.save(...)

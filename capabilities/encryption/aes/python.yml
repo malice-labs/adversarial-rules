@@ -1,0 +1,15 @@
+rules:
+  - id: aes
+    severity: WARNING
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: AES Encryption
+      platform: agnostic
+    message: |
+      Use of some form of AES for encryption
+    patterns:
+       - pattern-either:
+          - pattern: AESCipher
+  

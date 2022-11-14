@@ -1,0 +1,20 @@
+rules:
+  - id: browser
+    severity: WARNING
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: Webbrowser Interactions
+      platform: agnostic
+    message: |
+      Sample interacts with the webbrowser
+
+    pattern-sources:
+      - pattern: open(...)
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: read(...)
+          - pattern: readline(...)
+          - pattern: readlines(...)

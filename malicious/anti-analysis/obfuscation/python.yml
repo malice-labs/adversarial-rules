@@ -1,0 +1,41 @@
+rules:
+
+  - id: pyarmor-obfuscation
+    severity: ERROR
+    languages:
+      - python
+    metadata:
+      name: PyArmor Obfuscation
+      platform: agnostic
+    message: |
+      Pyarmor (https://wiki.python.org/moin/Pyarmor) is used to obfuscate the source code
+    patterns:
+      - pattern-either:
+        - pattern: pyarmor_runtime(...)
+        - pattern: __pyarmor__(...)
+  
+  # TODO: handle variable aliasing
+  - id: encode-obfuscation
+    severity: ERROR
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: Encoding Obfuscation
+      platform: agnostic
+    message: |
+      Encoding is used to obfuscate the source code before execution
+    pattern-sources:
+      - pattern-either:
+        # Standard Base* encoding
+        - pattern: base64.b64decode(...)
+        - pattern: base32.b32decode(...)
+
+        # Zlib compression
+        - pattern: zlib.$CALL(...)
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: compile(...)
+          - pattern: eval(...)
+          - pattern: exec(...)

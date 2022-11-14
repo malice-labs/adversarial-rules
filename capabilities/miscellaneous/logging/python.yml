@@ -1,0 +1,12 @@
+rules:
+  - id: logging
+    severity: WARNING
+    languages:
+      - python
+    metadata:
+      name: Execution Logging
+      platform: agnostic
+    message: |
+      Utilizes logging facilities during execution
+
+    pattern: logging.$CALL

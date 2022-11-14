@@ -1,0 +1,17 @@
+rules:
+  - id: process-enum
+    severity: WARNING
+    languages:
+      - python
+    metadata:
+      name: Process Enumeration
+      platform: agnostic
+    message: |
+      Host's processes are enumerated
+
+    patterns:
+      - patterns-either:
+          - psutil.process_iter(...)
+
+          # TODO: other methods
+          - os.listdir("/proc")

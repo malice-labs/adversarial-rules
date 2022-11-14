@@ -1,0 +1,79 @@
+rules:
+  - id: file-read
+    severity: WARNING
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: File Read
+      platform: agnostic
+    message: |
+      Opens and reads files
+
+    pattern-sources:
+      - pattern: open(...)
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: read(...)
+          - pattern: readline(...)
+          - pattern: readlines(...)
+
+  - id: file-write
+    severity: WARNING
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: File Write
+      platform: agnostic
+    message: |
+      Opens and writes to a file
+
+    # TODO: regex match on mode
+    pattern-sources:
+      - pattern-either:
+        - pattern: open(..., 'w')
+        - pattern: open(..., 'wb')
+        - pattern: open(..., 'wb+')
+
+    pattern-sinks:
+      - pattern-either:
+          - pattern: write(...)
+          - pattern: writeline(...)
+          - pattern: writelines(...)
+
+  - id: file-copy
+    severity: WARNING
+    languages:
+      - python
+    metadata:
+      name: File Copying
+      platform: agnostic
+    message: |
+      Path is copied to elsewhere
+    
+    patterns:
+      - shutil.copy(...)
+      - shutil.copy2(...)
+      - shutil.copyfile(...)
+      - shutil.copyfileobj(...)
+      - shutil.copytree(...)
+
+  - id: dir-enums
+    severity: WARNING
+    languages:
+      - python
+    metadata:
+      name: Directory Enumeration
+      platform: agnostic
+    message: |
+      A directory's contents are enumerated
+    
+    patterns:
+      - pattern-either:
+        - os.listdir(...)
+        - os.walk(...)
+        - glob.glob(...)
+        - dircache.listdir(...)
+        - findtools.find_files(...)

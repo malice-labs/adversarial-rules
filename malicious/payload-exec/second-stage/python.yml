@@ -1,0 +1,58 @@
+rules:
+
+  # Dataflow from a network call to a shell execution sink, we can make this
+  # rule a lot more genericized.
+  - id: second-stage
+    severity: ERROR
+    mode: taint
+    languages:
+      - python
+    metadata:
+      name: Payload Stage Execution
+      platform: agnostic
+    message: |
+      A payload is downloaded from the Internet and then executed.
+
+    pattern-sources:
+       - pattern-either:
+          - pattern: requests.$CALL
+          - pattern: socket.$CALL
+          - pattern: urllib2.$CALL
+          - pattern: urllib3.$CALL
+          - pattern: pycurl.$CALL
+      
+    pattern-sinks:
+      - pattern-either:
+
+        # something was downloaded and executed as a process
+        - pattern: subprocess.Popen(...)
+        - pattern: subprocess.run(...)
+        - pattern: subprocess.call(...)
+        - pattern: subprocess.check_call(...)
+        - pattern: subprocess.exec(...)
+        - pattern: os.system(...)
+        - pattern: os.popen(...)
+        - pattern: os.popen2(...)
+        - pattern: os.popen3(...)
+        - pattern: os.popen4(...)
+        - pattern: os.spawnl(...)
+        - pattern: os.spawnle(...)
+        - pattern: os.spawnlp(...)
+        - pattern: os.spawnlpe(...)
+        - pattern: os.spawnv(...)
+        - pattern: os.spawnve(...)
+        - pattern: os.spawnvp(...)
+        - pattern: os.spawnvpe(...)
+        - pattern: popen2.popen2(...)
+        - pattern: popen2.popen3(...)
+        - pattern: popen2.popen4(...)
+        - pattern: popen2.Popen3(...)
+        - pattern: popen2.Popen4(...)
+        - pattern: commands.getoutput(...)
+        - pattern: commands.getstatusoutput(...)
+        - pattern: paramiko.exec_command(...)
+
+        # or python code was passed in through a buffer
+        - pattern: compile(...)
+        - pattern: exec(...)
+        - pattern: eval(...)
